@@ -1,0 +1,69 @@
+{
+  "name": "@ys319/inksquid",
+  "version": "0.1.1",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/mod.ts",
+    "./png": "./src/encode-png/mod.ts",
+    "./oklab": "./src/colorspace/oklab.ts",
+    "./blue-noise": "./src/dither/blue-noise.ts"
+  },
+  "publish": {
+    "include": [
+      "src/",
+      "README.md",
+      "LICENSE",
+      "deno.jsonc"
+    ],
+    "exclude": [
+      "examples/",
+      "scripts/",
+      "src/**/*.test.ts",
+      "src/_test-fixtures.ts"
+    ]
+  },
+  "tasks": {
+    "test": "deno test --unstable-webgpu --allow-read --allow-write --allow-env src/",
+    "test:cpu": "deno test --allow-read --allow-write --allow-env --ignore=src/**/*.gpu.test.ts src/",
+    "test:gpu": "deno test --unstable-webgpu --allow-read --allow-write --allow-env src/**/*.gpu.test.ts",
+    "bundle": "deno run -A examples/bundle.ts",
+    "bundle:watch": "deno run -A examples/bundle.ts --watch",
+    "serve": "deno run --allow-net --allow-read --allow-env examples/serve.ts",
+    "demo": "deno task bundle && deno task serve",
+    "check": "deno check src/mod.ts",
+    "fmt": "deno fmt",
+    "lint": "deno lint",
+    "dry-publish": "deno publish --dry-run --allow-dirty"
+  },
+  "compilerOptions": {
+    "lib": [
+      "deno.window",
+      "deno.unstable",
+      "dom"
+    ],
+    "strict": true
+  },
+  "fmt": {
+    "lineWidth": 100,
+    "indentWidth": 2,
+    "semiColons": true,
+    "singleQuote": false,
+    "exclude": [
+      "**/*.md",
+      ".claude/",
+      "examples/*.bundle.js",
+      "examples/*.bundle.js.map"
+    ]
+  },
+  "lint": {
+    "exclude": [
+      "examples/*.bundle.js",
+      "examples/*.bundle.js.map"
+    ],
+    "rules": {
+      "tags": [
+        "recommended"
+      ]
+    }
+  }
+}
